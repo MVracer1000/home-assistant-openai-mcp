@@ -9,7 +9,6 @@ startup: application
 boot: auto
 init: false
 stage: experimental
-image: ghcr.io/mvracer1000/home-assistant-openai-mcp
 options:
   tunnel_id: ""
   runtime_api_key: ""
