@@ -13,7 +13,6 @@ options:
   tunnel_id: ""
   runtime_api_key: ""
   ha_token: ""
-  mcp_server_url: "http://homeassistant:8123/api/mcp"
 schema:
   tunnel_id: str
   runtime_api_key: password
