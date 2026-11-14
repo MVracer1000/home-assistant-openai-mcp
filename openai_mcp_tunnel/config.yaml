@@ -1,0 +1,22 @@
+name: OpenAI MCP Tunnel
+version: "0.1.0"
+slug: openai_mcp_tunnel
+description: Runs the official OpenAI Secure MCP Tunnel client for a private Home Assistant MCP endpoint.
+url: https://github.com/MVracer1000/home-assistant-openai-mcp/tree/main/openai_mcp_tunnel
+arch:
+  - amd64
+startup: application
+boot: auto
+init: false
+stage: experimental
+image: ghcr.io/mvracer1000/home-assistant-openai-mcp
+options:
+  tunnel_id: ""
+  runtime_api_key: ""
+  ha_token: ""
+  mcp_server_url: "http://homeassistant:8123/api/mcp"
+schema:
+  tunnel_id: str
+  runtime_api_key: password
+  ha_token: password
+  mcp_server_url: url
