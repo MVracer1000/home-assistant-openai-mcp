@@ -24,7 +24,7 @@ Home Assistant OS app repository for running the official OpenAI Secure MCP Tunn
    `https://github.com/MVracer1000/home-assistant-openai-mcp`
 2. Refresh the App Store and install **OpenAI MCP Tunnel**. The app is built locally by Home Assistant Supervisor from the included Dockerfile; no prebuilt image is published.
 3. Enter the tunnel ID, the restricted OpenAI Runtime API key, and a dedicated Home Assistant long-lived access token in the app configuration.
-4. Confirm the MCP server URL is reachable from the app container. The default is `http://homeassistant:8123/api/mcp`.
+4. Copy the exact MCP URL for the `HA-MCP Server (tool search)` API from **Settings → System → AI**. When more than one LLM API is enabled, Home Assistant exposes separate URLs per API; use the URL for the intended API, not a guessed base URL.
 5. Start the app and inspect its logs for a healthy connection.
 
 Never paste credentials into GitHub, issue reports, screenshots, or chat messages.
