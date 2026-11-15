@@ -7,7 +7,7 @@ arch:
   - amd64
 startup: application
 boot: auto
-init: false
+init: true
 stage: experimental
 ingress: true
 ingress_port: 8099
