@@ -336,8 +336,11 @@ class Handler(BaseHTTPRequestHandler):
             self._json(400, {"error": str(err)})
         except RuntimeError as err:
             self._json(502, {"error": str(err)})
-        except Exception:
-            self._json(500, {"error": "Unerwarteter interner Fehler. Details wurden aus Datenschutzgründen nicht protokolliert."})
+        except Exception as err:
+            # Log only the exception class; never log prompts, tool arguments, or credentials.
+            error_type = type(err).__name__
+            print(f"HA Chat request failed: {error_type}", flush=True)
+            self._json(500, {"error": f"Interner Fehler ({error_type}). Bitte das App-Protokoll prüfen."})
 
     def _chat(self, state: dict, data: dict):
         text = data.get("text")
