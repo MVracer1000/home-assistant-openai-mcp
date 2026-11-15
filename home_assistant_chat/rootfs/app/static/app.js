@@ -94,14 +94,35 @@
   }
 
   async function api(path, payload) {
-    const response = await fetch(endpoint(path), {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      cache: "no-store",
-      body: JSON.stringify({ session: sessionId, ...payload })
-    });
-    const data = await response.json().catch(() => ({}));
-    if (!response.ok) throw new Error(data.error || "Anfrage fehlgeschlagen.");
+    let response;
+    try {
+      response = await fetch(endpoint(path), {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        cache: "no-store",
+        body: JSON.stringify({ session: sessionId, ...payload })
+      });
+    } catch (error) {
+      const reason = error && error.message ? error.message : "Netzwerkfehler";
+      throw new Error("Verbindung zum Home-Assistant-Chatserver fehlgeschlagen: " + reason);
+    }
+
+    const raw = await response.text();
+    let data = {};
+    try {
+      data = raw ? JSON.parse(raw) : {};
+    } catch (_) {
+      data = {};
+    }
+
+    if (!response.ok) {
+      const detail = data.error || data.message || data.detail ||
+        ("HTTP " + response.status + (response.statusText ? " " + response.statusText : ""));
+      throw new Error(String(detail).slice(0, 700));
+    }
+    if (!data || typeof data !== "object" || !Array.isArray(data.messages)) {
+      throw new Error("Der Chatserver hat eine unerwartete Antwort geliefert (HTTP " + response.status + ").");
+    }
     return data;
   }
 
