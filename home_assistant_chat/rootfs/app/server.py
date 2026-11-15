@@ -58,7 +58,7 @@ TOOLS = [
     }
 ]
 
-ALLOWED_MODELS = {"gpt-6.1-sol", "gpt-6-astra", "gpt-6-luna"}
+ALLOWED_MODELS = {"gpt-6.1-sol", "gpt-6-astra"}
 LOCK = threading.RLock()
 SESSIONS: dict[str, dict] = {}
 
