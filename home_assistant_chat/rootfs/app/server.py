@@ -289,6 +289,9 @@ class Handler(BaseHTTPRequestHandler):
         if path == "/app.js":
             self._serve_file("app.js", "text/javascript; charset=utf-8")
             return
+        if path == "/style.css":
+            self._serve_file("style.css", "text/css; charset=utf-8")
+            return
         if path == "/api/history":
             from urllib.parse import parse_qs, urlsplit
             query = parse_qs(urlsplit(self.path).query)
