@@ -1,15 +1,15 @@
-FROM python:3.12-alpine3.22
+FROM ghcr.io/home-assistant/base:3.24
 
-ARG BUILD_VERSION=0.1.4
+ARG BUILD_VERSION=0.1.5
 
-WORKDIR /app
+RUN apk add --no-cache python3
 
+# Copy only the application files. No legacy s6 service definitions are used.
 COPY rootfs/app/ /app/
 
-RUN python -m py_compile /app/server.py
+RUN /usr/bin/python3 -m py_compile /app/server.py
 
 LABEL io.hass.type="app" io.hass.version="${BUILD_VERSION}" io.hass.arch="amd64"
 
-EXPOSE 8099
-
-CMD ["python", "/app/server.py"]
+# Keep the base image's /init entrypoint; run one foreground Python process.
+CMD ["/usr/bin/python3", "/app/server.py"]
