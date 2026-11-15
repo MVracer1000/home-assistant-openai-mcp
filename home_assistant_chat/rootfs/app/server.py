@@ -54,10 +54,7 @@ TOOLS = [
         ),
         "tunnel_id": "",
         "allowed_tools": ["ha_search_tools", "ha_call_tool"],
-        "require_approval": {
-            "always": {"tool_names": ["ha_call_tool"]},
-            "never": {"tool_names": ["ha_search_tools"]},
-        },
+        "require_approval": "always",
     }
 ]
 
@@ -119,7 +116,7 @@ def _response_api(history: list[dict]) -> dict:
         "tools": TOOLS,
         "parallel_tool_calls": False,
         "store": False,
-        "max_output_tokens": 4000,
+        "max_output_tokens": 2400,\n        "reasoning": {"effort": "medium"},
     }
     request = Request(
         OPENAI_URL,
