@@ -17,8 +17,8 @@ panel_admin: true
 options:
   openai_api_key: ""
   tunnel_id: ""
-  model: "gpt-6-astra"
+  model: "gpt-6.1-sol"
 schema:
   openai_api_key: password
   tunnel_id: match(^tunnel_[a-z0-9]{32}$)
-  model: str
+  model: list(gpt-6.1-sol|gpt-6-astra|gpt-6-luna)
