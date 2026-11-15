@@ -116,7 +116,8 @@ def _response_api(history: list[dict]) -> dict:
         "tools": TOOLS,
         "parallel_tool_calls": False,
         "store": False,
-        "max_output_tokens": 2400,\n        "reasoning": {"effort": "medium"},
+        "max_output_tokens": 2400,
+        "reasoning": {"effort": "medium"},
     }
     request = Request(
         OPENAI_URL,
