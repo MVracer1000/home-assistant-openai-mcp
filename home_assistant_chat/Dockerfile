@@ -1,7 +1,7 @@
 ARG BUILD_FROM=ghcr.io/home-assistant/base:3.23
 FROM ${BUILD_FROM}
 
-ARG BUILD_VERSION=0.1.1
+ARG BUILD_VERSION=0.1.2
 
 RUN apk add --no-cache python3
 
