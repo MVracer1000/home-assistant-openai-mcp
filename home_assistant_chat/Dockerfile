@@ -1,6 +1,6 @@
 FROM ghcr.io/home-assistant/base:3.24
 
-ARG BUILD_VERSION=0.1.5
+ARG BUILD_VERSION=0.1.6
 
 RUN apk add --no-cache python3
 
