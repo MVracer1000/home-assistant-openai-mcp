@@ -7,7 +7,7 @@ RUN apk add --no-cache python3
 
 COPY rootfs /
 
-RUN chmod 0755 /etc/services.d/home_assistant_chat/run /app/server.py
+RUN chmod 0755 /etc/services.d/home_assistant_chat/run /app/server.py \\\n    && /usr/bin/python3 -m py_compile /app/server.py
 
 LABEL \
   io.hass.type="app" \
