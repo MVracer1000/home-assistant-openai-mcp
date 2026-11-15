@@ -1,45 +1,46 @@
 # Home Assistant OpenAI MCP
 
-Home Assistant OS app repository for running the official OpenAI Secure MCP Tunnel client inside the Home Assistant network.
+Home Assistant OS app repository for a private OpenAI Secure MCP Tunnel and a separate browser chat for Home Assistant support.
 
-> **Status: experimental, initial tunnel app only.** The separate browser chat frontend is a later step and is not included yet.
+> **Status: experimental.** Both apps are intended for a single Home Assistant OS amd64 host and need testing in the target installation before everyday use.
 
-## App
+## Apps
 
-- [OpenAI MCP Tunnel](./openai_mcp_tunnel) — runs the official OpenAI tunnel client and forwards MCP traffic to the local Home Assistant MCP endpoint.
+- [OpenAI MCP Tunnel](./openai_mcp_tunnel) — runs the official OpenAI tunnel client and forwards MCP traffic to a private Home Assistant MCP endpoint.
+- [Home Assistant Chat](./home_assistant_chat) — browser chat using the OpenAI Responses API and the existing tunnel. Served through Home Assistant Ingress.
 
-## Security
+## Security principles
 
-- The repository contains no credentials, access tokens, tunnel IDs, or personal network addresses.
-- Runtime API key and Home Assistant token are entered in the Home Assistant app configuration and are represented as password fields.
-- The app exposes no inbound network ports.
-- The app uses the Home Assistant MCP HTTP endpoint and a bearer token.
-- Keep the Home Assistant MCP integration in read-only mode and expose only the tools you intend the model to use.
-- Do not enable write-capable tools unless you have separately reviewed and explicitly approved that change.
-- The tunnel client makes outbound connections to OpenAI; MCP requests and responses traverse OpenAI's service.
+- Never commit credentials, access tokens, tunnel IDs, or private network addresses.
+- Keep the HA-MCP integration's **Nur-Lese-Modus** enabled and secret redaction on.
+- The chat app requires approval for each MCP tool call.
+- The chat app has no Home Assistant token, Docker API, Supervisor API, host networking, or exposed host port.
+- Home Assistant Ingress protects the browser UI; the chat backend accepts only the Ingress proxy.
+- MCP requests and Home Assistant data sent to the model traverse OpenAI for processing.
 
 ## Installation
 
-1. Add this repository URL in Home Assistant under **Settings → Apps → App Store → ⋮ → Repositories**:
-   `https://github.com/MVracer1000/home-assistant-openai-mcp`
-2. Refresh the App Store and install **OpenAI MCP Tunnel**. The app is built locally by Home Assistant Supervisor from the included Dockerfile; no prebuilt image is published.
-3. Enter the tunnel ID, the restricted OpenAI Runtime API key, and a dedicated Home Assistant long-lived access token in the app configuration.
-4. Copy the exact MCP URL for the `HA-MCP Server (tool search)` API from **Settings → System → AI**. When more than one LLM API is enabled, Home Assistant exposes separate URLs per API; use the URL for the intended API, not a guessed base URL.
-5. Start the app and inspect its logs for a healthy connection.
+1. Add this repository in Home Assistant under **Settings → Apps → App Store → ⋮ → Repositories**:
+   https://github.com/MVracer1000/home-assistant-openai-mcp
+2. Install **OpenAI MCP Tunnel** and configure it with your tunnel ID, restricted Runtime API key, HA-MCP URL, and HA access token.
+3. Verify the tunnel integration is healthy and the control plane is polling.
+4. Install **Home Assistant Chat**. Configure a separate OpenAI project API key with permission to create Responses API requests, and use the same tunnel ID.
+5. Open the chat app through its Home Assistant Ingress panel.
 
-Never paste credentials into GitHub, issue reports, screenshots, or chat messages.
+The experimental app images are built locally by Home Assistant Supervisor from the included Dockerfiles. No secrets are stored in this repository.
 
-## Development notes
+## Important distinctions
 
-- Current tunnel client release pinned by the Dockerfile: `v0.0.20`.
-- The release ZIP is verified against its published SHA-256 digest during the image build.
-- Current app version: `0.1.0`.
-- Initial supported Home Assistant architecture: `amd64` (Generic x86-64).
-- The app image is built locally by Home Assistant Supervisor.
-- The API chat UI will be designed and reviewed separately after the tunnel app is tested.
+- The tunnel Runtime API key is used only by the tunnel client.
+- The Chat app needs a separate Responses API project key.
+- API usage is billed separately from any ChatGPT subscription.
+- The chat app uses store=false, but that does not equal Zero Data Retention.
+- The app's in-memory chat history is cleared when it restarts.
 
 ## References
 
 - [OpenAI Secure MCP Tunnel](https://developers.openai.com/api/docs/guides/secure-mcp-tunnels)
 - [OpenAI MCP servers / Responses API](https://developers.openai.com/api/docs/guides/tools-connectors-mcp)
+- [OpenAI API keys and service accounts](https://developers.openai.com/api/docs/guides/api-keys)
 - [Home Assistant app development](https://developers.home-assistant.io/docs/apps/)
+- [Home Assistant Ingress](https://developers.home-assistant.io/docs/apps/presentation/#ingress)
