@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <title>Home Assistant Chat</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-icon" aria-hidden="true">HA</div>
+        <div>
+          <h1>Home Assistant Chat</h1>
+          <p>Technische Unterstützung · Nur-Lese-Zugriff</p>
+        </div>
+      </div>
+      <button id="new-chat" class="button subtle" type="button">Neuer Chat</button>
+    </header>
+
+    <section class="security" aria-label="Sicherheitshinweis">
+      <span class="security-dot" aria-hidden="true"></span>
+      <div>
+        <strong>Geschützter Home-Assistant-Zugang</strong>
+        <p>Werkzeugabfragen werden vor der Ausführung einzeln zur Freigabe angezeigt. Änderungen an Home Assistant sind nicht vorgesehen.</p>
+      </div>
+    </section>
+
+    <section id="conversation" class="conversation" aria-live="polite" aria-label="Chatverlauf">
+      <div id="welcome" class="welcome">
+        <div class="welcome-mark" aria-hidden="true">⌂</div>
+        <h2>Wobei kann ich helfen?</h2>
+        <p>Ich kann deine Home-Assistant-Konfiguration, Automationen, Entitäten, Protokolle und Frigate-Diagnosen lesend untersuchen.</p>
+        <div class="suggestions">
+          <button type="button" class="suggestion" data-prompt="Prüfe bitte den aktuellen Systemstatus von Home Assistant.">Systemstatus prüfen</button>
+          <button type="button" class="suggestion" data-prompt="Hilf mir, eine Automation zu untersuchen, die nicht wie erwartet funktioniert.">Automation untersuchen</button>
+          <button type="button" class="suggestion" data-prompt="Zeige mir, wie ich die Protokolle auf Fehler prüfen kann.">Protokolle prüfen</button>
+        </div>
+      </div>
+      <div id="messages" class="messages"></div>
+      <div id="pending" class="pending-host"></div>
+    </section>
+
+    <form id="composer" class="composer">
+      <label class="sr-only" for="message">Nachricht</label>
+      <textarea id="message" rows="1" maxlength="8000" placeholder="Stelle eine Frage zu deinem Home Assistant …" autocomplete="off"></textarea>
+      <button id="send" class="send-button" type="submit" aria-label="Nachricht senden">
+        <span aria-hidden="true">↑</span>
+      </button>
+      <div class="composer-note">Enter zum Senden · Shift + Enter für einen Zeilenumbruch</div>
+    </form>
+    <footer class="footnote">Die API-Nutzung wird separat abgerechnet. Chatverläufe werden nur vorübergehend im Arbeitsspeicher dieser App gehalten.</footer>
+  </main>
+</body>
+</html>
