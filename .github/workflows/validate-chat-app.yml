@@ -36,6 +36,7 @@ jobs:
           assert config["arch"] == ["amd64"]
           assert config["ingress"] is True
           assert config["ingress_port"] == 8099
+          assert config["init"] is False
           assert config["schema"]["openai_api_key"] == "password"
           assert "tunnel_id" in config["schema"]
           assert config["options"]["model"] == "gpt-6.1-sol"
