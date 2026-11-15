@@ -60,7 +60,7 @@ A tool approval shows the MCP tool name and its arguments. Deny requests that ap
 
 ## Runtime
 
-The app uses the Home Assistant base image S6 entrypoint with a single foreground process supplied by Docker CMD. It deliberately does not register a second legacy s6 service, avoiding duplicate process startup.
+The app uses a minimal Python Alpine image without S6. It runs one foreground Python process, with the Supervisor-managed init enabled to reap processes cleanly.
 
 ## Troubleshooting
 
