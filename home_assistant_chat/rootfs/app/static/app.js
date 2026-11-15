@@ -81,7 +81,7 @@
     const approve = document.createElement("button");
     approve.type = "button";
     approve.className = "approve";
-    approve.textContent = "Lesende Abfrage freigeben";
+    approve.textContent = "Abfrage freigeben";
     approve.addEventListener("click", () => decideApproval(true, approve, deny));
     const deny = document.createElement("button");
     deny.type = "button";
