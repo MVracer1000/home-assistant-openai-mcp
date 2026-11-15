@@ -1,5 +1,5 @@
 name: Home Assistant Chat
-version: "0.1.4"
+version: "0.1.5"
 slug: home_assistant_chat
 description: Private browser chat for read-only Home Assistant diagnostics using the OpenAI Responses API and Secure MCP Tunnel.
 url: https://github.com/MVracer1000/home-assistant-openai-mcp/tree/main/home_assistant_chat
@@ -7,7 +7,7 @@ arch:
   - amd64
 startup: application
 boot: auto
-init: true
+init: false
 stage: experimental
 ingress: true
 ingress_port: 8099
