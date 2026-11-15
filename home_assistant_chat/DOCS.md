@@ -58,6 +58,10 @@ A tool approval shows the MCP tool name and its arguments. Deny requests that ap
 - No host port is exposed. Do not add a port mapping or enable host networking.
 - The tunnel integration makes the outbound MCP tunnel connection. The chat app makes outbound HTTPS requests to api.openai.com.
 
+## Runtime
+
+The app uses the Home Assistant base image S6 entrypoint with a single foreground process supplied by Docker CMD. It deliberately does not register a second legacy s6 service, avoiding duplicate process startup.
+
 ## Troubleshooting
 
 - **API key rejected**: verify the API key, project, expiration, model-request / Responses permission, and API billing.
