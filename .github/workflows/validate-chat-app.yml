@@ -1,0 +1,46 @@
+name: Validate Home Assistant Chat app
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install YAML validator
+        run: python -m pip install --disable-pip-version-check pyyaml
+
+      - name: Validate Python and app configuration
+        run: |
+          python -m py_compile home_assistant_chat/rootfs/app/server.py
+          python - <<'PY'
+          from pathlib import Path
+          import yaml
+
+          config = yaml.safe_load(Path("home_assistant_chat/config.yaml").read_text())
+          assert config["slug"] == "home_assistant_chat"
+          assert config["arch"] == ["amd64"]
+          assert config["ingress"] is True
+          assert config["ingress_port"] == 8099
+          assert config["schema"]["openai_api_key"] == "password"
+          assert "tunnel_id" in config["schema"]
+          assert config["options"]["model"] == "gpt-6.1-sol"
+          print("App configuration and Python syntax: OK")
+          PY
+
+      - name: Build Home Assistant Chat container
+        run: docker build --pull --tag home-assistant-chat:test home_assistant_chat
